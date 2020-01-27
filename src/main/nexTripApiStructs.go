@@ -3,11 +3,11 @@ package main
 type nexTripDeparture struct {
 	actual           bool
 	blockNumber      int
-	departureText    string // can be null, only returned when actual = true
+	departureText    string // can be nil, only returned when actual = true
 	departureTime    string // iso format?
 	description      string
 	gate             string  // can be nil
-	route            string  // typically int for bus, possible string for trains?
+	route            int     // typically int for bus, possible string for trains? nope its an int for sure
 	routeDirection   string  // NORTHBOUND, SOUTHBOUND etc, make enum?
 	terminal         rune    // can be nil
 	vehicleHeading   int     // always 0, awaiting future development

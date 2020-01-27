@@ -5,22 +5,23 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 )
 
-func getJsonFromUrl(url string) string {
-	res, e := http.Get("https://svc.metrotransit.org/NexTrip/Routes?format=json")
+// returns request body as a string. May return empty string.
+func getDataFromUrl(url string) (string, error) {
+	res, e := http.Get(url)
 
 	if e != nil {
 		fmt.Printf(e.Error())
-		os.Exit(1)
+		return "", e
 	}
 
 	resBody, e := ioutil.ReadAll(res.Body)
 
 	if e != nil {
 		log.Fatal(e)
+		return "", e
 	}
 
-	return (string(resBody))
+	return string(resBody), nil
 }

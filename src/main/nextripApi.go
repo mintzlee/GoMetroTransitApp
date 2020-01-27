@@ -2,43 +2,71 @@ package main
 
 import (
 	"fmt"
+	"os"
 )
 
-// move format=json query param to the getJsonfromurl function
 func getRoutes() {
-	routesJson := getJsonFromUrl("https://svc.metrotransit.org/NexTrip/Routes?format=json")
+	routesJson, e := getDataFromUrl(routesJsonUrl)
+
+	if e != nil {
+		fmt.Printf(e.Error())
+		os.Exit(1)
+	}
 	fmt.Println(routesJson)
 }
 
 func getProviders() {
-	providersJson := getJsonFromUrl("https://svc.metrotransit.org/NexTrip/Providers?format=json")
+	providersJson, e := getDataFromUrl(providersJsonUrl)
+
+	if e != nil {
+		fmt.Printf(e.Error())
+		os.Exit(1)
+	}
 	fmt.Println(providersJson)
 }
 
-// TODO: make sure route string is correctly formatted before passing in
-func getDirections(route string) {
-	directionsJson := getJsonFromUrl("https://svc.metrotransit.org/NexTrip/Directions/" + route + "?format=json")
+func getDirections(route int) {
+	directionsJson, e := getDataFromUrl(getDirectionsJsonUrl(string(route)))
+	if e != nil {
+		fmt.Printf(e.Error())
+		os.Exit(1)
+	}
 	fmt.Println(directionsJson)
 }
 
-// TODO: make sure route string is correctly formatted before passing in, set up direction enum?
-func getStops(route string, direction string) {
-	stopsJson := getJsonFromUrl("https://svc.metrotransit.org/NexTrip/Stops/" + route + "/" + direction + "?format=json")
+// set up direction enum?
+func getStops(route int, direction string) {
+	stopsJson, e := getDataFromUrl(getStopsJsonUrl(string(route), direction))
+	if e != nil {
+		fmt.Printf(e.Error())
+		os.Exit(1)
+	}
 	fmt.Println(stopsJson)
 }
 
 func getDepartures(stopId int) {
-	departuresJson := getJsonFromUrl("https://svc.metrotransit.org/NexTrip/" + string(stopId) + "?format=json")
+	departuresJson, e := getDataFromUrl(getDeparturesJsonUrl(string(stopId)))
+	if e != nil {
+		fmt.Printf(e.Error())
+		os.Exit(1)
+	}
 	fmt.Println(departuresJson)
 }
 
-// doublecheck api documentation for stop formatting for this call. ensure route formatted, direction enum?
-func getTimepointDepartures(route string, direction string, stop string) {
-	timepointDeparturesJson := getJsonFromUrl("https://svc.metrotransit.org/NexTrip/" + route + "/" + direction + "/" + stop + "?format=json")
+func getTimepointDepartures(route int, direction string, stop int) {
+	timepointDeparturesJson, e := getDataFromUrl(getTimepointDeparturesJsonUrl(string(route), direction, string(stop)))
+	if e != nil {
+		fmt.Printf(e.Error())
+		os.Exit(1)
+	}
 	fmt.Println(timepointDeparturesJson)
 }
 
-func getVehicleLocationsJson(route string) {
-	vehicleLocationsJson := getJsonFromUrl("https://svc.metrotransit.org/NexTrip/VehicleLocations/" + route + "?format=json")
+func getVehicleLocationsJson(route int) {
+	vehicleLocationsJson, e := getDataFromUrl(getVehicleLocationsJsonUrl(string(route)))
+	if e != nil {
+		fmt.Printf(e.Error())
+		os.Exit(1)
+	}
 	fmt.Println(vehicleLocationsJson)
 }
