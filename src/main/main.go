@@ -1,7 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"os"
 	"time"
 )
 
@@ -19,14 +22,33 @@ func main() {
 	fmt.Printf("Current time: " + currentTime)
 
 	fmt.Printf("\n\n" + hello() + "\n\nRoutes\n")
-	getRoutes()
-	fmt.Printf("\n\nProviders")
-	getProviders()
-	fmt.Printf("\n\nDirections")
+	// getRoutes()
+	// fmt.Printf("\n\nProviders")
+	// getProviders()
+	// fmt.Printf("\n\nDirections")
+
+	readSampleData()
 
 }
 
 // convert into greeting / usage print
 func hello() string {
 	return ("Hello, world\n")
+}
+
+// read in sample files as byte array, convert into structs for use. okay? okay.
+func readSampleData() {
+	jsonbytes, e := ioutil.ReadFile("../sampleData/departuresSample.json")
+	if e != nil {
+		fmt.Printf("error")
+		os.Exit(1)
+	}
+
+	data := NexTripDepartures{}
+
+	_ = json.Unmarshal([]byte(jsonbytes), &data)
+
+	for i := 0; i < len(data.NexTripDepartures); i++ {
+		fmt.Printf("%d DepartureText: %s", i, data.NexTripDepartures[i].DepartureText)
+	}
 }

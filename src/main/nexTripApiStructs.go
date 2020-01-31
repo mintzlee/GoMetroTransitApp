@@ -1,41 +1,56 @@
 package main
 
-type nexTripDeparture struct {
-	actual           bool
-	blockNumber      int
-	departureText    string // can be nil, only returned when actual = true
-	departureTime    string // iso format?
-	description      string
-	gate             string  // can be nil
-	route            int     // typically int for bus, possible string for trains? nope its an int for sure
-	routeDirection   string  // NORTHBOUND, SOUTHBOUND etc, make enum?
-	terminal         rune    // can be nil
-	vehicleHeading   int     // always 0, awaiting future development
-	vehicleLatitude  float32 // (-)xx.xxxxx format. can be nil, only returned when actual = true
-	vehicleLongitude float32 // (-)xx.xxxxx format. can be nil, only returned when actual = true
+type NexTripDeparture struct {
+	Actual           bool
+	BlockNumber      int
+	DepartureText    string // can be nil, only returned when actual = true
+	DepartureTime    string // iso format?
+	Description      string
+	Gate             string  // can be nil
+	Route            string  // typically int for bus, possible string for trains? nope its an int for sure
+	RouteDirection   string  // NORTHBOUND, SOUTHBOUND etc, make enum?
+	Terminal         string  // can be nil
+	VehicleHeading   int     // always 0, awaiting future development
+	VehicleLatitude  float64 // (-)xx.xxxxx format. can be nil, only returned when actual = true
+	VehicleLongitude float64 // (-)xx.xxxxx format. can be nil, only returned when actual = true
 }
 
-type nexTripRoute struct {
-	description string
-	providerId  int // assumed always int. not sure.
-	route       int
+type NexTripDepartures struct {
+	NexTripDepartures []NexTripDeparture
 }
 
-type textValuePair struct {
-	text  string
-	value string
+type NexTripRoute struct {
+	Description string
+	ProviderID  int
+	Route       int
 }
 
-type vehicleLocation struct {
-	blockNumber      int
-	direction        int
-	locationTime     string // iso format?
-	route            int
-	terminal         rune    // char
-	vehicleLatitude  float32 // (-)xx.xxxxx format. can be nil, only returned when actual = true
-	vehicleLongitude float32 // (-)xx.xxxxx format. can be nil, only returned when actual = true
-	bearing          int     // always 0, awaiting future development
-	odometer         int     // always 0, awaiting future development
-	speed            int     // always 0, awaiting future development
+type NexTripRoutes struct {
+	NexTripRoutes []NexTripRoute
+}
 
+type TextValuePair struct {
+	Text  string
+	Value string
+}
+
+type TextValuePairs struct {
+	TextValuePairs []TextValuePair
+}
+
+type VehicleLocation struct {
+	BlockNumber      int
+	Direction        int
+	LocationTime     string // iso format?
+	Route            int
+	Terminal         string
+	VehicleLatitude  float64 // (-)xx.xxxxx format. can be nil, only returned when actual = true
+	VehicleLongitude float64 // (-)xx.xxxxx format. can be nil, only returned when actual = true
+	Bearing          int     // always 0, awaiting future development
+	Odometer         int     // always 0, awaiting future development
+	Speed            float64 // always 0, awaiting future development, samples show float
+}
+
+type VehicleLocations struct {
+	VehicleLocations []VehicleLocation
 }
